@@ -95,6 +95,24 @@
                     <a href="https://vapor.laravel.com">Vapor</a>
                     <a href="https://github.com/laravel/laravel">GitHub</a>
                 </div>
+                {{-- <p>{{$name}} --- {{$age}} </p> --}}
+                <h1>{{__('messages.welcome')}} </h1>
+                {{-- <p>{{$obj->name}} --- {{$obj->age}} </p>
+                @if ($obj->name == 'Eng.Ahmed')
+                    <p>Yse I am {{$obj->name}} --- {{$obj->age}} </p>
+                @else
+                <p>Oh Other programer I am {{$obj->name}} --- {{$obj->age}} </p>
+                @endif --}}
+                
+                {{-- @foreach ($data as $_data)
+                    <p> {{$_data}} </p>
+                @endforeach --}}
+
+                @forelse ($data as $_data)
+                    <p> {{$_data}} </p>
+                @empty
+                    <p> empty array </p>
+                @endforelse
             </div>
         </div>
     </body>

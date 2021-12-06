@@ -1,0 +1,480 @@
+عشان ننشاء المشروع نكتب الامر التالي:
+
+composer create-project --prefer-dist laravel/laravel:^7.0 ecommerce
+
+
+اولا في ملف ال hotdocs داخله نعمل بالماوس خيارات طبعاً بعد تثبيت برنامج Git
+ونختار git bash hear
+ثم نكتب الامر التالي عشان مانحتاجش نثبت الكمبوسر في كل بروجكت
+
+composer global require laravel/installer
+
+ثم نكتب الامر التالي لانشاء مشروع لارفال
+laravel new ecommerce
+ثم نكتب الامر التالي عشان يربط عملي مع القيت هب ويعمل لي انتي ريبوزتري
+
+git init
+
+ثم نذهب الى حسابنا على القيت هب ونعمل من repository ->new repository 
+ونخليها بابليك عشان الي يدخل يقدر يشوفها من الفريق
+
+store-ecommerce
+
+ ثم نعمل رفع للمشروع ع القيت هب من خلال الامر التالي وسوف يقوم برفع جميع الملفات ماعدى ملفات الالموقفة في ملف .gitignore 
+
+git add .
+ 
+ثم ننتظر حتى ينتهي من الرفع ونكتب الامر التالي للتثبيت
+git commit -m "first commit"
+
+في اول مرة بايطلب مننا اسم المستخدم والباسورد الخاصة بحساباتنا وندخلهم بالاوامر التالية:
+
+git config --global user.email "eng.ahmedgramah.ag@gmail.com"
+
+
+ثم نكتب الامر الثاني :
+
+git config --global user.name "engahmedGramh"
+
+ثم نعمل كوميت
+
+git commit -m "join acount gethub"
+
+ثم ننسخ الامر الخاص بالريبوزتري لربطه مع المشروع 
+
+git remote add origin .....
+ex:
+git remote add origin https://github.com/engahmedGramh/store-ecommerce.git
+
+وعشان ننظمها ونرفعها على شكل فيرجنات نكتب الامر التالي
+
+git checkout -b begin 
+
+ثم سوف يتم انشاء برانش جديد اسمه begin 
+
+لمعرفة البرانش الي احنا فيه نكتب الامر التالي:
+git branch
+
+وعشان ارفع المشروع حقي ع البرانش الي انشئته الجديد نكتب الامر التالي 
+
+git push -u origin begin 
+
+هذا حسب كود القيت هوب
+git branch -M main
+
+git push -u origin main
+
+ثم نظيف المشروع للماستر الذي هوه ملف المشروع الرئيسي ويتم عمل البرانش للرجوع في حالة وقعت مشكلة الاكواد مقسمة ونستطيع استعادة نسخة سابقة
+
+
+git push -u origin master
+
+
+اولا ننشاء لنا ملفين للراوت ملف للادمن وملف للمستخدمين
+ننسخ ملف web.php ونسمي واحد site.php وواحد نسمية admin.php خاص بجميع الراوت الخاصة بلوحة التحكم 
+بعد اضافة الملفات في الراوتس نذهب الى الملف التالي 
+app\Providers\RouteServiceProvider.php
+
+ونقوم بربط الملفين التي اضفناهم
+ من خلال اضافة الدوال التالية:
+in laravel 8
+public function boot()
+    {
+        $this->configureRateLimiting();
+
+        $this->routes(function () {
+            Route::prefix('api')
+                ->middleware('api')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api.php'));
+
+            Route::middleware('web')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/web.php'));
+            Route::middleware('site')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/site.php'));
+            Route::middleware('admin')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/admin.php'));
+        });
+    }
+
+in laravel 7.0
+
+ public function map()
+    {
+        $this->mapApiRoutes();
+
+        $this->mapWebRoutes();
+	//copy this code for any ad file in routs folder 
+	//نضيف الملفات ونربطهن بهذا الامر عشان نستخدم الراوت حسب المجموعة وننظم العمل 
+	$this->mapSiteRoutes();
+	$this->mapAdminRoutes();
+
+        //
+    }
+
+ثم ننشئ حقهن الفانكشن الي اتستدعيهن مثل حق الويب راوتس نكررها حسب الملفات التي انربطها بها
+
+/**
+     * Define the "web" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapWebRoutes()
+    {
+        Route::middleware('web')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/web.php'));
+    }
+
+     /**
+     * Define the "admin" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapAdminRoutes()
+    {
+        Route::middleware('admin')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/admin.php'));
+    }
+
+     /**
+     * Define the "site" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapSiteRoutes()
+    {
+        Route::middleware('site')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/site.php'));
+    }
+
+
+وهكذا نكون خلصنا من جزء الراوتس وننتقل المرحلة الثانية وهيا الكنترولر
+
+وننشء في المجلدات التالي في داخل ملف Http
+ونركز على حالة الاحرف اول حرف كابيتال ونسمي اول مجلد 
+Dasboard
+والثاني اسمه 
+Site
+
+ونحط الكنترول الخاصة بكل مجموعة في المجلد الخاص بها
+ثم ننتقل الى المودل ونقوم بانشاء مجلد داخل ال app ونسمية Models
+
+وننسخ الية ملف اليوسير الخاص بالموديل الذي يوجد داخل ملف ال app الديفلت ونقوم بتعديل المسار حقه كالتالي 
+
+namespace App\Models;
+
+ثم نقوم باضافة بعض الباكجات التي سوف تساعدنا في تطوير المشروع وتختصر لنا الوقت
+اول اضافة هيا astrotomic/laravel-translatable
+
+ثم ندخل القيتهب الخاص بها ونتبع اوامر تثبيتها كالتالي
+
+هذا الامر شغال بس النت يحتاج يكون تمام
+
+composer require astrotomic/laravel-translatable
+
+او
+
+
+composer require astrotomic/laravel-translatable ^11.9
+
+
+ثم نبح عن الضافة الثانية الخاصة بالترجمة عشان لوحة التحكم الخاصة بالادمن اذا كانت متعددة اللغات
+
+composer require mcamara/laravel-localization 
+
+ثم نكتب امر التنصيب الموجود في القيت هب
+هذا الامر شغال بس النت يحتاج يكون تمام
+
+composer require mcamara/laravel-localization
+
+
+ او
+
+composer require mcamara/laravel-localization ^1.6
+
+ثم بعد التحميل نكتب الامر التالي 
+
+php artisan vendor:publish --provider="Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider"
+
+
+ثم في ملف الكينرل
+app/Http/Kernel.php
+ نذهب الى الدالة  
+protected $routeMiddleware
+ وننسخ الاكواد التالية :
+
+
+'localize'                => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRoutes::class,
+        'localizationRedirect'    => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter::class,
+        'localeSessionRedirect'   => \Mcamara\LaravelLocalization\Middleware\LocaleSessionRedirect::class,
+        'localeCookieRedirect'    => \Mcamara\LaravelLocalization\Middleware\LocaleCookieRedirect::class,
+        'localeViewPath'          => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationViewPath::class
+
+ثالث اضافة وهيا 
+
+laravel-datatable
+
+
+ولتثبيتها نكتب الامر التالي:
+بالعالمة $ اذا كنا نستخدم السي ام دي او بدون علامة $ اذا كنا نستخدم القيت بوش
+
+$ composer require yajra/laravel-datatables-oracle:"~9.0"
+
+ثم نفك ملف المشروع الي معانا الي اسمة  ecommerce-master
+وننسخ منه الاشياء التالية 
+
+في مسار 
+C:\xampp\htdocs\ecommerce\public
+نحط ملف ال assets الموجود في المشروع الي معانا عشان في الملفات الي انحتاجها حق لوحة التحكم حق الثيم الي انشتغل علية
+
+
+ثم نذهب الى المسار 
+C:\xampp\htdocs\ecommerce\resources\views
+ونعمل داخلية ملفين عشان نحط فيهم الراوتات الخاصة بكل واحد وانسميهم dashboard والثاني نسمية site 
+ثم داخل ملف الداش بورد ننشاء ملف اسمه includes وفيه ايتم عمل كل الملفات الثابته في الصفحات مثل الهيدر والمينيو والفوتر والسكربت ونعمل ملف جنبه اسمه 
+alerts وفيه اننحط ملفات رسائل الاحداث النجاح والاخفاق 
+
+//الدرس رقم 14
+
+هذا فائدته مانكتبش المسار حق الدالة نعمل اسم قروب للملف وننشئ داخلة الراوتات الي نحتاجها والوصولل اليها من خلال
+اسم الكونترولر فقط بدو ذكر اسم الملف
+لنفرض ان معانا كنترولر لاظهار اسم الادمن في ملف الادمن داخل الكنترولر وداخله ملف الكنترولر 
+// route name space
+
+Route::namespace('Admin')->group(function(){
+// all route only access controller or method in folder name front
+
+});
+
+
+prefix نستخدمها عشان مانكررش اسم الملف في المسار
+
+Route::prefix('users')->group(function(){
+    Route::get('teast',function(){
+        return 'Work';
+    });
+});
+
+وهذا شكل القروب الاحترافي الي بيشتغل عليه المهندسين الي بيشتغلوا في الشركات
+
+// route group with prefix
+Route::group(['prefix','users'],function(){
+    Route::get('teast',function(){
+        return 'Work';
+    });
+});
+
+بدل ما اعمل
+ Route::get('users\users','UserController@showAdminName');
+اعمل داخل القروب 
+Route::get('users','UserController@showAdminName');
+بدون مسار الملف
+ونستخدمها في حالة معانا ملفات او مسارات كثير لمجموعة معينة داخلف ملف وهذه هيه الطريقة الصحيحة في العمل التنظيم والتقسيم للملفات
+
+وهذا شكلها مع الميدل وير الي يسوي لنا الاوثنتكيشن للصفحات 
+// route group with middlewar
+Route::group(['prefix','users','middleware'=>'auth'],function(){
+    Route::get('test2',function(){
+        return 'Work';
+    });
+});
+
+
+// الدرس 15
+انشاء قروب وادخلها بيرفكس
+وبهذة الطريقة انشتغل ع بقية المشروع 
+Route::group(['prefix','users'],function(){
+    Route::get('teast',function(){
+        return 'Work';
+    });
+});
+
+وهذة طريقة ثانية لعمل ميدل وير لراوت معين
+//maek middleware to coustme rout
+Route::get('check', function () {
+    return 'middleware';
+})->middleware('auth');
+
+
+// الدرس رقم 16 
+انشاء كونترولر
+
+php artisan make:controller FirstController
+
+اذا قمنا بنقله نقوم بتغيير النايم سبيس الخاص به في الملف حقه
+
+namespace App\Http\Controllers\Front;
+use App\Http\Controllers\Controller;
+ونعرفة بمسار ملف الكنترولر 
+
+// الدرس 17
+ثم نعمل دالة داخل الكنترولر لعرض نص مؤقتا نص ثابت
+public function showData(){
+        return 'Statec text!';
+    }
+
+ونستدعيها في ملف الويب
+// show data withe controller with name spease
+Route::get('frist','Front\FirstController@showData');
+
+او نستخد هذة الطريقة الثانية اذا كان معانا اكثر من راوت في النيم سبيس
+// or use name space wein you have more route
+// route name space
+ Route::namespace('Front')->group(function(){
+//  all route only access controller or method in folder name front
+ Route::get('users','UserController@showAdminName');
+ Route::get('frist','FirstController@showData');
+    });
+
+
+// الدرس 18
+controller middleware
+اذا عملنا هذة الدالة في ملف الكنترولر فانه سوف يعمل الميدلوير على كل دوال الكنترولر
+public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
+//الدرس 19 و 20 
+controller and route resource
+
+ننشاء اولاً كنترولر
+php artisan make:controller NewsController --resource
+
+بينشاء لك كنترول مع جميع الدوال المساعدة حق العرض والتعديل والحذف والحفظ
+
+ثم نكتب الامر التالي في ملف الويب
+
+Route::resource('news','NewsController');
+
+ثم في محرر القيت نكت الامر التالي لعرض الراوتات
+
+php artisan route:list
+
+نلاحظ انها عملت لنا عدة روتات مساعدة للعرض والتحديث والحفظ من خلال امر واحد فقط
+
+//الدرس 21
+الفيو موجود في المسار التالي
+resources\views
+داخلها ملفات الفيو حق العرض حق الموقع التي تحتوي ع اكواد ال Html and Css
+
+عشان اشغل مشروع ثاني في نفس الوقت اغير البورت حق التشغيل فقط كالتالي
+php artisan serve --port=8001
+
+//الدرس 22
+استقبال وارسال المتغيرات الى الفيو
+
+لارسال متغير الى الفيو وطباعته
+Route::get('/', function () {
+    return view('welcome')->with('data',2);
+});
+
+في ملف الفيو عشان اطبع المتغير $data
+<p> {{$data}}</p>
+
+سوف يتم طباعة العدد 2
+
+ارسال اكثر من متغير باستخدام البيرفيكس
+
+Route::get('/', function () {
+    return view('welcome')->with(['age'=>2,'name'=>'eng.Ahmed']);
+});
+
+<p>{{$name}} --- {{$age}} </p>
+
+والشكل اصحيح لارسال البيانات وخاصة اذا كانت البيانات كثيرة
+Route::get('/', function () {
+    $data=[];
+    $data['name']='Eng.Ahmed';
+    $data['age']=5;
+    return view('welcome',$data);
+});
+
+دام بنستخدم الكنترولر نفعل فية العمليات ونستدعي الدالة الخاصةبه فقط
+Route::get('index','Front\UserController@getIndex');
+
+وداخل الكنترولر داخل الدالة نكتب العمليات
+public function getIndex(){
+		$data=[];
+    $data['name']='Eng.Ahmed';
+    $data['age']=5;
+    return view('welcome',$data);
+	}
+	
+وهناك طريقة اخرى باستخدام  الاوبجكت
+public function getIndex(){
+	
+	$obj=new \stdClass();
+	$obj->name='Eng.Yosef';
+	$obj->age=5;
+	return view('welcome',compact('obj'));
+	}
+
+
+// الدرس 23
+كيفية تضمين ملف فرونتاند html
+نقوم بعمل فيو ونسمية ثم نضع ملفات الاستايل والسكربتات في ملف public
+ثم في الفيو نسخدم المكتبة المساعدة لتضمين الملفات
+
+{{URL::asset('')}}
+
+كمافي الشكل التالي
+<link href="{{URL::asset('plugins/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
+
+
+//الدرس 24 تعدد اللغات
+معانا ملف lang الموجود في الريسورس
+وفيه مجلدات اللغات التي انتعامل معها ولنفرضنحتاج الى عمل ملف اسمه messages.php ونكررة في جميع مجلدات اللغات التي معانا
+
+وعشان اطبع من ملف اللغات اكتب اسم الملف والكاي حق الكلمة كالتالي
+
+<h1>{{__('messages.welcome')}} </h1>
+
+وعشان اغيرلغة المشروع الافتراضية ادخل ملف الكونفق ثم الى ملف الااب واغير اللغة 
+config\app.php
+
+'locale' => 'en',
+
+// الدرس 25 الانهيرتنس او التوريث 
+تقسيم الملفات حق المشروع اولاً ننشاء مجلد layouts 
+وداخلية ملف اسمه master.blade.php
+
+وكذلك انشاء مجلد اسمه includes وفيه يتم وضع ملفات المينيو والفوتر والهيدر
+
+التي تتكر في كل المشروع
+
+في داخل ملف الماستر يتم وضع الاكواد التي سوف تتكرر في كل الصفحات
+وفي مكان المحتوي نضع الدالة التالية ونكتب بداخلها اسم الحاوية
+@yield('content')
+وفي ملف المحتوى او الصفحة نكتب الكود التالي
+
+@extends('layouts.master')
+@section('content')
+	محتوى الصفحة 
+@endsection
+
+
+// الدرس 26 كيفية عمل الدوال في صفحة البليد الخاصة بالعرض
+if , for,switch,...
+
+@if ($obj->name == 'Eng.Ahmed')
+                    <p>Yse I am {{$obj->name}} --- {{$obj->age}} </p>
+                @else
+                <p>Oh Other programer I am {{$obj->name}} --- {{$obj->age}} </p>
+                @endif
+
+
+
