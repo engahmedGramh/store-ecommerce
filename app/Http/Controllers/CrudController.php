@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Offer;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use App\Http\Requests\offerRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -11,9 +13,9 @@ class CrudController extends Controller
     //
     public function getOffers(){
         //return Offer::get();
-        return Offer::select('id','name')->get();
+        return Offer::select('id','name_ar')->get();
     }
-    public function store(Request $request){
+    public function store(offerRequest $request){
         // Offer::create([
         //     'name'=>'offers3',
         //     'price'=>'205',
@@ -22,21 +24,25 @@ class CrudController extends Controller
 
         // validate data befor insert to databease
        
-        $ruls=$this->getRuls();
-        $messages=$this->getMessages();
-        $validator=Validator::make($request->all(),$ruls,$messages);
-        if($validator->fails()){
-            //return $validator->errors();
-            // return first error just
-            // return $validator->errors()->first();
-            // when have erorr redirct to form
-            return redirect()->back()->withErrors($validator)->withInput($request->all());
-        }
+        // $ruls=$this->getRuls();
+        // $messages=$this->getMessages();
+        // $validator=Validator::make($request->all(),$ruls,$messages);
+        // if($validator->fails()){
+        //     //return $validator->errors();
+        //     // return first error just
+        //     // return $validator->errors()->first();
+        //     // when have erorr redirct to form
+        //     return redirect()->back()->withErrors($validator)->withInput($request->all());
+        // }
         // insert data
         Offer::create([
-            'name'=>$request->name,
+            
+            'name_ar'=>$request->name_ar,
+            'name_en'=>$request->name_en,
             'price'=>$request->price,
-            'details'=>$request->details,
+            
+            'details_ar'=>$request->details_ar,
+            'details_en'=>$request->details_en,
         ]);
         //return $request;
         //return 'Sucsses seved data !.';
@@ -47,21 +53,26 @@ class CrudController extends Controller
      return view('offers.create');
     }
 
-    protected function getMessages(){
-        return  $messages=[
-            'name.required'=>trans('messages.offerNameRequired'),
-            'name.unique'=>__('messages.offerNameUnique'),
-            'name.max'=>__('messages.offerNameMax'),
-            'price.required'=>__('messages.offerPriceRequired'),
-            'price.numeric'=>__('messages.offerPriceNumeric'),
-            'details.required'=>__('messages.offerDetailsRequired'),
-        ];
+    public function getAllOffers(){
+       $offers= Offer::select('id','name_'.LaravelLocalization::getCurrentLocale().' as name','price','details_'.LaravelLocalization::getCurrentLocale().' as details')->get(); //return c
+        return view('offers.all',compact('offers'));
     }
-    protected function getRuls(){
-        return  $ruls=[
-            'name'=>'required|max:100|unique:offers,name',
-            'price'=>'required|numeric',
-            'details'=>'required',
-        ];
-    }
+
+    // protected function getMessages(){
+    //     return  $messages=[
+    //         'name.required'=>trans('messages.offerNameRequired'),
+    //         'name.unique'=>__('messages.offerNameUnique'),
+    //         'name.max'=>__('messages.offerNameMax'),
+    //         'price.required'=>__('messages.offerPriceRequired'),
+    //         'price.numeric'=>__('messages.offerPriceNumeric'),
+    //         'details.required'=>__('messages.offerDetailsRequired'),
+    //     ];
+    // }
+    // protected function getRuls(){
+    //     return  $ruls=[
+    //         'name'=>'required|max:100|unique:offers,name',
+    //         'price'=>'required|numeric',
+    //         'details'=>'required',
+    //     ];
+    // }
 }

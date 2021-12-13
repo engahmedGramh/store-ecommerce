@@ -21,5 +21,12 @@ return [
     'offerPriceRequired'=>' السعر مطلوب ولايحتوي قيمة ',
     'offerPriceNumeric'=>'  الحقل يجب ان يكون قيمة عددية لاتحتوي على نصوص ',
     'offerDetailsRequired'=>'  تفاصيل العرض حقل مطلوب ولا يحتوي على بيانات  ',
+    'offerName' => ' اسم العرض ',
+    'offerPrice' => ' سعر العرض ',
+    'offerDetails' => ' تفاصيل العرض',
+    'offerName_ar' => ' اسم العرض بالعربي ',
+    'offerName_en' => ' اسم العرض بالانجليزي ',
+    'offerDetails_ar' => ' تفاصيل العرض بالعربي',
+    'offerDetails_en' => ' تفاصيل العرض بالانجليزي',
 
 ];

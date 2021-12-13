@@ -467,7 +467,8 @@ config\app.php
 @endsection
 
 
-// الدرس 26 كيفية عمل الدوال في صفحة البليد الخاصة بالعرض
+// الدرس 26 
+كيفية عمل الدوال في صفحة البليد الخاصة بالعرض
 if , for,switch,...
 
 @if ($obj->name == 'Eng.Ahmed')
@@ -477,4 +478,1252 @@ if , for,switch,...
                 @endif
 
 
+$data=['a'=>'ahmed','b'=>'isaa','c'=>'mohamed'];
+
+@forelse ($data as $_data)
+                    <p> {{$_data}} </p>
+                @empty
+                    <p> empty array </p>
+                @endforelse
+عبارة عن فور عادية مع فحص اذا كانت فارغة ترجع قيمة معينة
+
+
+// الدرس 27,28,29
+نظام تسجيل الدخول والتسجيل في لارفال
+
+composer require laravel/ui --dev
+
+هذا الامر يحل لنا كل الاشياء والنواقص اوتوماتيكياً
+
+php artisan ui vue --auth
+
+هذا الامر ايعمل لنا تسجيل الدخول والتسجيل مع اللراوت حقها الديفلت حق لارفال
+ وبعدين اتتكون الشاشات وانحتاج نعمل قاعدة بيانات ونربطها عشان يحفظ المستخدمين
+
+الضبط حق القاعدة من ملف .env
+ونكتب اسمها ونروح ننشاء القاعدة في phpadmin ثم نعود ونرجع ونسوي الامر التالي عشان يتم انشاء الجداول الخاصة بالتسجيل
+
+php artisan migrate
+
+ايحدث خطاء انروح ال مجلد 
+app\Providers\AppServiceProvider.php
+
+داخل دالة البوت
+ Schema::defaultStringLength(191);
+
+
+وفي الاعلى نضمن المكتبة التالية عشان مايحدثش خطاء
+
+use Illuminate\Support\Facades\Schema;
+
+ثم ندخل الى القاعدة ونحذف الجداول لانوة اتحدث مشكلة لانوة الجداول موجودة بس ماكملش حقها الحقول
+ونعيد كتابة الامر
+php artisan migrate
+
+// الدرس 30
+تسجيل الدخول وعمل التسجيل عبر الموبايل
+وتغيير الدخول عبر الموبايل 
+ومن الكونفق نعد مسار المودل والكنترولر وفي الوقن كونترولر نعمل اوفر رايت ع الدالة عشان يقبل الهاتف
+
+public function username()
+    {
+        return 'mobile';
+    }
+
+
+
+//الدرس 31 
+كيفية عمل التحقق من البريد الالكتروني
+ ندخل ملف .env
+ونكتب فية بيانات ال smtp.mailtrap.io
+
+username & password
+
+عشان يشوف المشروع التغييرات ع ملف الاينف
+
+نكتب الامر التالي:
+
+composer dump-autoload	
+
+ثم في ملف الراوت نعدل الاتي
+
+
+Auth::routes(['verify'=>true]);
+
+Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
+
+
+ ثم نذهب الى المودل الخاص بجدول اليوسير الي اسمه User
+ونظيف implements MustVerifyEmail كالتالي
+class User extends Authenticatable implements MustVerifyEmail
+
+ونضيف حقها المكتبة الخاصة بها 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+// الدرس 32
+استعادة كلمة المرور
+ بندخل الايميل ويرسلها وقبل الارسال بيتاكد الايميل موجود فعلا او لا
+ويرسل وندخل الايميل ونعمل استعادة وندخل الباسورد الجديدة وكل شي بيمشي معانا صح
+
+
+// الدرس33
+رفع الكود وتحديث الكود
+
+git add .
+
+git commit -m "thisto33shapter with auth and lang"
+
+git push -u origin main
+
+
+git push -u origin main
+
+
+طيب معاي مشروع مرفوع واشتي اثبته عندي
+اسوي نسخ لرابط الريبوزتري من القيتهب الخاصة بالمشروع وادخل الى ملف الزامب ثم الى ملف الهوتدوكس واعمله فتح بالقيت 
+واكتب الامر التالي عشان ينشاء لنا ملف المشروع بدون ملف الفيندور وعشان نشغله بنفتح ملف الاينف وننشاء القاعدة ثم نعمل للملف بالقيت ونكتب الامر 
+
+composer install
+
+الامر هو
+git clone ثم رابط الريبوزتري
+
+// الدرس 34
+تسجيل الدخول بواسط وسائل السوشيل ميديا
+
+اولاانحتاج نثبت مكتبة في لارفال تساعدنا على عمل الاوثنتكيشتن باستخدام السوشيل ميديا اسمها سوشيلت
+ 
+composer require laravel/socialite
+
+بعد تثبيت التطبيق بندخل وننشاء لنا رابط للمشروع حقنا الي انسويه في السوشيل ميديا
+في الفيس بوك
+https://developers.facebook.com/apps
+وعند انشاءالتطبيق بنكتب اسمة والايميل وبناخذ حاجتين مهمات
+ نحفظ معرف التطبيق
+معرف التطبيق
+255238909925782
+المفتاح السري للتطبيق
+de96350dcbf111cde786fabbfa2178ad
+
+وبايطلب برايفسي ننشائها احنا بننشئها من الموقع التالي
+termsfeed.com
+
+
+ثم نضع رابط سياسة الخصوصية الذي تم انشائة 
+https://www.termsfeed.com/live/1c9d6653-3868-43a5-a7f3-5b121bc155b8
+
+ 
+نضع هذة الملفات في ملف ال.env
+ونكتب الايدي معرف التطبيق والمفتاح السري ونحفظ
+
+FB_CLIENT_ID=
+FB_CLIENT_SECRET=
+FB_REDIRECT='http://localhost:8000/callback/facebook'
+
+ثم نذهب الى الكونفق الى ملف ال السيرفيسس الذي بنحط فيه الاعدادات حق اي اضافات خارجية بنستخدمها
+
+C:\xampp\htdocs\ecommerce\config\services.php
+
+ونكنب فيها التالي
+'facebook' => [
+        'client_id' => env('FB_CLIENT_ID'),
+        'client_secret' => env('FB_CLIENT_SECRET'),
+        'redirect' => env('FB_REDIRECT'),
+    ],
+
+
+ثم نذهب نعمل لنا راوت عشان يودية للتسجيل عبرالفيس
+
+ونعمل زر في التسجيل والانشاء يودينا للراوت حقنا
+<a class="btn btn-link btn btn-theme" href="{{ url('redirect/facebook') }}">
+                                    {{ __('Login with Facebook') }}
+                                </a>
+
+ثم نذهب الى الراوت وننشاء الراوت التالي:
+Route::get('/redirect/facebook','SocislController@redirect');
+
+ثم ننشاء الكنترولر  SocislController
+
+php artisan make:controller SocislController
+
+
+نعدل حقنا الراوت عشان نخلية يستخدم نفس الراوت اذا اضفنا تويتر وجيميل بعدين
+
+Route::get('/redirect/{service}','SocislController@redirect');
+
+وننشاء داخلا الكنترولر الدالة
+
+public function redirect($service){
+        return Socialite::driver()->redirect();
+    }
+
+ونضمن المكتبة فوق عشان مايظهر خطاء
+use Laravel\Socialite\Facades\Socialite;
+
+وننشاء الدالة هذة والكل
+public function callback($service){
+        return $user=Socialite::with($service)->user();
+    }
+
+ونعمل الراوت التالي
+Route::get('/callback/{service}','SocislController@callback');
+
+
+ايطلع لنا خطا في الارجاع حق البانات انوة مافيش ssl
+نذهب للموقع التالي وننزل شهادة امان خاصة بال لوكل هوست
+curl.haxx.se/ca/cacert.pem
+
+اتنزلنا الشهادة
+ونحطها في ملف الهوت دوكس
+ثم نفتح ملف php.ini ونبحث عن حاجة اسمها curl
+ونعمل المسار التالي داخل curl.cainfo ونشيل الكمت اذا كانت موقفة
+curl.cainfo ="certificate C:\xampp\htdocs\cacert.pem"
+
+
+//الدرس 37
+التسجيل بالموبايل او الايميل
+
+
+في الكونترولر نغير دالة اليوزر نيم
+ public function username()
+    {
+        // return 'mobile';
+        $value=request()->input('identfy');//email or mobile!
+        $faild=filter_var($value,FILTER_VALIDATE_EMAIL) ? 'email' :'mobile';
+        request()->merge([$faild=>$value]);
+        return $faild;
+    }
+هذا السطر يقو باستقبال المتغير واستخدام دالة التحقق باستخدام الفلتر اذا كان المتغير من نوع ايميل او لا
+$faild=filter_var($value,FILTER_VALIDATE_EMAIL) ? 'email' :'mobile';
+
+وفي صفحة login.blade.php
+حقل الموبايل نخلية هكذا
+<div class="col-md-6">
+                                <input id="identfy" type="text" class="form-control @error('identfy') is-invalid @enderror" name="identfy" value="{{ old('identfy') }}" required  >
+
+                                @error('identfy')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+اي نعد اسمه ونخلية identfy
+
+// الدرس 38
+تنزيل المشروع من القيت هب ونغير اسم القاعدة او ننشاء قاعدة بنفس الاسم ونغير بيانات الايميل
+
+ربط التحميل 
+----------------
+https://github.com/ahmedeagle/starter
+امر التحميل لاول مره 
+
+ثم نعمل بعدها
+composer install
+
+وايقوم بتحميل ملف الفيندور باحدث اصدار ويشغل لنا كل شي
+
+---------------------------
+git clone https://github.com/ahmedeagle/starter
+
+لو حضرت محملة قبل كده فقط قم بسجب التغييرات عن طريق الامر 
+--------------------------------
+git pull origin master 
+
+
+لو مسحبش معاك التغيرات نتيجه لوجود تعديلات عندك انت عملها علي اي ملف هتعمل الاتي 
+
+git add .
+git commit -m="any message"
+
+
+
+// الدرس 39
+laravel task scheduler
+بيستخدم في اغلب المشاريع بنسبة 57% 
+
+عمل جدول الاشتراكات وعمل توقيف للمستخدمين بشكل الي بعد فترة معينة
+
+المثال الي بانسوية هو بانعمل انه يغير حالة المستخدم كل 5 دقايق من 1 الى 0
+
+نكتب الامر التالي 
+
+php artisan make:command expiration
+
+سوف يتم انشاء ملف كوماند في الااب في مجلد كوماند
+C:\xampp\htdocs\ecommerce\app\Console\Commands\expiration.php
+
+
+وداخلة نسوي الاتي :
+
+نعدل الى الاسم الي انسوية
+
+ protected $signature = 'user:expire';
+
+protected $description = 'expire users every 5 minute automatically';
+
+// الدرس 40
+تكملة الاسكيديولر
+
+نضيف حقل expire في جول اليوزير عشان نعرف انه انتها والديفلت حقة 0
+ونضيف في القاعدة والمودل والماقريشن
+والماقريشن مش ضروري او اجباري
+
+
+من نوع بيانات TINYINT 
+length 1
+Default 0
+
+
+ثم نعدل الدلة في ملف الكوماند ايكبريشن
+
+public function handle()
+    {
+
+         $users = User::where('expire', 0)->get(); //collection of users
+        foreach ($users as $user) {
+            $user->update(['expire' => 1]);
+        }
+    }
+
+ونضيف المجال حق المودل حق اليوزر فوق
+
+use App\Models\User;
+
+وفي جدول الكيرنل الي في ملف الكونسول نكتب داخل  متغير الكوماند السطر الاتي
+App\Console\Commands\expiration::class,
+
+كمافي الشكل هذا
+
+ protected $commands = [
+        //
+        App\Console\Commands\expiration::class,
+    ];
+
+وكذلك في دالة الاستدعاء في ملف الكيرنل
+
+
+ protected function schedule(Schedule $schedule)
+    {
+        // $schedule->command('inspire')->hourly();
+        $schedule->command('user:expire')->everyMinute();
+    }
+
+سوق يتم تغيير حالة المستخدمين كل دقيقة
+
+
+
+ثم نذهب للكوماند ونكتب الامر التالي عشان يشغل الجدولة او ننتظر الوقت ونشوف بايغير بالجدول في القاعدة
+
+php artisan schedule:run
+
+ملاحظة اسم الكوماند يكون كابيتل الصح والاستاندر العالمي
+
+// الدرس 41
+كيفية عمل رسائل جماعية للايميلات حق المستخدمين باستخدام الجدولة
+الجزء الاول
+ 
+نكتب الامر التالي
+
+php artisan make:command Notify
+
+/**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'notify:email';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'send email notify for all user every day';
+
+
+ public function handle()
+    {
+        $user= User::select('email')->get();
+	//ايجيب البيانات ع شكل كولكشن في طريقة اخرى تجيبة لي ع شكل مصفوفة
+	$emails=User::pluck('email')->toArray();
+	foreach($emails as $email){
+		//how to send emails in laravel
+	}
+
+    }
+
+ثم ندخل ملف الكيرنل ونظيف دالة ونستدعي الكوماند
+protected function schedule(Schedule $schedule)
+    {
+        
+        $schedule->command('user:expire')->everyMinute();
+        $schedule->command('notify:email')->daily();
+    }
+
+
+وفي ملف الكيرنل الخاص بالكوماند نستدعي الكلاس الخاص بالنوتي فاي
+
+ protected $commands = [
+        //
+        expiration::class,
+        Notify::class,
+    ];
+
+ونضيف المكتبة فوق حق المسار عشان يتعرف عليه
+
+use App\Console\Commands\expiration;
+use App\Console\Commands\Notify;
+
+وهكذا يكون جاهز الجدولة وبايرسل كل يوم للمستخدمين ايميل
+
+
+// الدرس 42
+كيفية عمل رسائل جماعية للايميلات حق المستخدمين باستخدام الجدولة
+الجزء الثاني
+
+نكتب الامر الذي ينشا عندي ايميل في لارفيل
+
+php artisan make:mail NotifyEmail
+
+اينشاء لنا مجلد اسمه  Maile داخلة ملف الايميل الي ايستدعي الفيو حق الايميل الي نشتي نرسله
+
+نروح للفيو وننشاء مجلد اسمه emails
+عشان ننظم العمل ونجمع الايميلات اذا كان معي ايميلات للمشرفين فقط  وايميلات للمستخدمين وهكذا
+
+وننشاء داخلها ملف فيو اسمه mailuser
+
+ثم نذهب للمايل نوتي فاي  ونستدعي الفيو
+
+C:\xampp\htdocs\ecommerce\app\Mail\NotifyEmail.php
+
+    public function build()
+    {
+        return $this->view('emails.mailuser');
+    }
+ 
+ثم نذهب الى ملف الكوماند Notify
+ونكتب دالة ارسال الايميل
+public function handle()
+    {
+        //$user= User::select('email')->get();
+	    //ايجيب البيانات ع شكل كولكشن في طريقة اخرى تجيبة لي ع شكل مصفوفة
+	    $emails=User::pluck('email')->toArray();
+        $data=['titele'=>'programming','body'=>'php'];
+	    foreach($emails as $email){
+		//how to send emails in laravel
+        Mail::To($email)->send(new NotifyEmail($data));
+	    }
+    }
+
+ثم نظيف المكاتب التالية فوق في ملف الكومند Notify
+
+use App\Mail\NotifyEmail;
+
+use Illuminate\Support\Facades\Mail;
+
+ونرجع كمان الى ملف المايل نوتي فاي ونستقبل البيانات الجاية لاعندة من الكوماند
+
+ننشاء متغير اسمه $detilse
+عشان نستخدمة لاستخدام البيانات الجاية من ملف الكماند وبيكون من نوع مصفوفة
+
+public $detilse; //arry
+    public function __construct($data)
+    {
+        //
+        $this->detilse=$data;
+    }
+
+
+ثم نذهب الى دالة استدعاء الفيو ونرسل لها البيانات باستخدام compact()
+
+public function build()
+    {
+        return $this->view('emails.mailuser',compact('detilse'));
+    }
+
+
+نعدل الدالة حق استدعاء الفيو حق المايل لانها باتشوف البيانات ديفلت لانها بتستدعي الفيو الى ملف المايل وبايتعرف ع متغير ال 
+detilse
+
+
+ public function build()
+    {
+        return $this->view('emails.mailuser');
+    }
+
+ثم نعمل تنفيذ للكماند ونشغله وايشغل كل الكوماندانت الموجودة في الهاندل ليسنر
+
+php artisan schedule:run
+
+
+//الدرس43
+What Is Laravel Eloquent _ ORM  - شرح الموديل والعلاقات بلارافل
+
+عملتها اللارفال للتعامل  مع قواعد البيانات باستخدام المودل
+ اسم المودل اول حرف كابيتل ومفرد
+واسم الجدول اسمول وجمع
+مثال:
+اسم المودل : User
+اسم الجدول : users
+
+// الدرس 44 
+شرح المودل
+
+ننشاء مودل 
+php artisan make:model Offer
+
+ثم ننقله الى داخل مجلد الي انشئناه واسمه Models
+
+وداخل المودل نعد النيم سبيس
+
+namespace App\Models;
+
+ثم  ننشاء جدول اسمه offers
+id,name,price,created_at,updated_at
+
+// الدرس 45
+اذا كان اسم الجدول مختلف او مش جمع
+داخل المودل نكتب الامر التالي:
+
+class Offer extends Model
+{
+    //
+    protected $table="nameTable";
+    protected $fillable=['name','price','details'];//الحقول هذة فقط التي اترجع عند الاستعلام عن الجدول
+    protected $hidden=['created_at','updated_at'];//هذهالحقول التي لاتظهر عند عمل الاستعلام عن الجدول 
+
+
+}
+
+عشان اخلي المودل يعرف الجدول
+
+
+ثم نروح للراوت وننشاءلنا راوت يعرض البيانات من كنترولر يستدعي فيو
+
+
+Route::get('/fillable','CrudController@getOffers');
+
+
+ننشاءكنترولر
+
+php artisan make:controller CrudController
+
+ثم ننشاء داخلة الدالة getOffers
+
+public function getOffers(){
+      return Offer::get();
+    }
+
+ونضيف حق المودل المسارفوق نعرفة
+use App\Models\Offer;
+
+سوف يتم ارجاع الحقول الي هيه فيلابيل اما الهيدن لا تظهر ابدن 
+وهذا نوع من الحماية
+
+كمان نستطيع جلب حقول معينة فقط باستخدام الدالة سيليكت ولكن سوف تكون ع مستوى الدالة فقط وتستطيع دالة اخرى جلب بقية البيانات
+
+public function getOffers(){
+        // return Offer::get();
+	return Offer::select('id','name')->get();
+    }
+
+
+// الدرس 46
+عمل انسيرت الى قاعدة البيانات
+
+داخل الكنترولر ننشاءالدالة ستور كالتالي
+
+public function store(){
+	Offer::create([
+            'name'=>'ahmed',
+            'price'=>'205',
+            'details'=>'ahmed',
+        ]);
+    }
+
+
+ثم نذهب الى الراوت وننشاء قروب عشان بانستخدم داخلة عدة عمليات
+
+Route::group(['prefix'=>'offers'],function(){
+	Route::get('store','CrudController@store');
+	Route::get('create','CrudController@create');
+});
+
+نفتح الرابط وانشوف انوه ظاف لنا حقل في قاعدة البيانات
+http://localhost:8000/offers/store
+
+ونلاحظ انة اضاف حقول الكرييات ات والابديات اد ديفلت من نفسة اذا كنا نشتي توقف ادخال الوقت لجدول معين في المودل حقة نكتب الامر التالي
+
+public $timestamps=false;
+
+
+// الدرس 47
+
+عمل فور ادخال البيانات
+نعمل فيو اسمها create
+ونعمل فيها فورم من نوع post
+
+<form method="POST" action="{{ route('offers.store') }}">
+                        @csrf
+                        {{-- <input name="_token" value="{{csrf_token()}}"/> --}}
+                        <div class="form-group row">
+                            <label for="name" class="col-md-4 col-form-label text-md-right"> Offer Name </label>
+
+                            <div class="col-md-6">
+                                <input id="name" type="text" class="form-control @error('name')  @enderror" name="name" value="{{ old('name') }}" >
+
+                                
+                            </div>
+                        </div>
+
+                        
+                        <div class="form-group row">
+                            <label for="price" class="col-md-4 col-form-label text-md-right"> Offer Price </label>
+
+                            <div class="col-md-6">
+                                <input id="price" type="text" class="form-control @error('price')  @enderror" name="price" value="{{ old('price') }}"  >
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="details" class="col-md-4 col-form-label text-md-right"> Offer Details </label>
+
+                            <div class="col-md-6">
+                                <input id="details" type="text" class="form-control @error('details')  @enderror" name="details" value="{{ old('details') }}"  >
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row mb-0">
+                            <div class="col-md-12 text-center mx-auto">
+                                <button type="submit" class="btn btn-primary btn btn-theme">
+                                    Create Offer
+                                </button>
+                                
+                            </div>
+                        </div>
+                    </form>
+
+وفي الراوت ننشاء راوات اسمه ستور ونعمل له نيم
+
+Route::group(['prefix'=>'offers'],function(){
+    // Route::get('store','CrudController@store');
+    Route::get('create','CrudController@create');
+    //هذا الذي انشئناه
+    Route::post('store','CrudController@store')->name('offers.store');
+});
+
+وفي الكنترولر نسوي الدالة حق الاستور
+
+
+
+public function store(Request $request){
+        // Offer::create([
+        //     'name'=>'offers3',
+        //     'price'=>'205',
+        //     'details'=>'offers details',
+        // ]);
+
+        // validate data befor insert to databease
+
+        // insert data
+        Offer::create([
+            'name'=>$request->name,
+            'price'=>$request->price,
+            'details'=>$request->details,
+        ]);
+        //return $request;
+    }
+ونضيف فوق المكتبة حق الريكوست
+
+use Illuminate\Http\Request;
+
+
+// الدرس 48
+نكمل الادخالوعمل الفالديشن اثناء ادخال البيانات بطريقة احترافية وستاندرد عالمي
+
+في الكنترولر انستخدم التالي
+
+public function store(Request $request){
+        // Offer::create([
+        //     'name'=>'offers3',
+        //     'price'=>'205',
+        //     'details'=>'offers details',
+        // ]);
+
+        // validate data befor insert to databease
+        $validator=Validator::make([],[],[]);
+        // insert data
+        Offer::create([
+            'name'=>$request->name,
+            'price'=>$request->price,
+            'details'=>$request->details,
+        ]);
+        //return $request;
+    }
+
+انستخدم Validator كلاس
+ومعاها الدالة make()
+وتستخدم ثلاثة متغيرات وممكن اثنين او واحد
+
+اول خانة انستقبل  الريكوست ونحول الى مصفوفة باستخدام الدالة all()
+
+ثاني خانة خاصة بالقواعد حق الحقول والفالديشن
+// validate data befor insert to databease
+// validate data befor insert to databease
+        $ruls=[
+            'name'=>'required|max:100|unique:offers,name',
+            'price'=>'required|numeric',
+            'details'=>'required',
+        ];
+        $messages=[
+            'name.required'=>' الحقل مطلوب ولايحتوي قيمة',
+            'name.unique'=>' القيمة موجودة مسبقاً',
+            'name.max'=>' يجب الا يتجاوز الحقل عن 100 حرف',
+            'price.required'=>'السعر مطلوب ولايحتوي قيمة',
+            'price.numeric'=>' الحقل يجب ان يكون قيمة عددية لاتحتوي على نصوص',
+            'details.required'=>' تفاصيل العرض حقل مطلوب ولا يحتوي على بيانات ',
+        ];
+        $validator=Validator::make($request->all(),$ruls,$messages);
+        if($validator->fails()){
+            return $validator->errors();
+            // return first error just
+            // return $validator->errors()->first();
+        }
+وعشان ننظم الكود عملنا المصفوفة داخل متغير عشا يكون الكود مفهوم اكثر
+
+ونشتي نتفنن شوية في الكود باكثر احترافية نسوي دوال للمصفوفات حقنا ونرجع منهم القيم بس كالتالي :
+
+public function store(Request $request){
+        // Offer::create([
+        //     'name'=>'offers3',
+        //     'price'=>'205',
+        //     'details'=>'offers details',
+        // ]);
+
+        // validate data befor insert to databease
+       
+        $ruls=$this->getRuls();
+        $messages=$this->getMessages();
+        $validator=Validator::make($request->all(),$ruls,$messages);
+        if($validator->fails()){
+            return $validator->errors();
+            // return first error just
+            // return $validator->errors()->first();
+        }
+        // insert data
+        Offer::create([
+            'name'=>$request->name,
+            'price'=>$request->price,
+            'details'=>$request->details,
+        ]);
+        //return $request;
+    }
+
+
+ثم نكتب في الاسفل الدوال حقنا 
+
+protected function getMessages(){
+        return  $messages=[
+            'name.required'=>' الحقل مطلوب ولايحتوي قيمة',
+            'name.unique'=>' القيمة موجودة مسبقاً',
+            'name.max'=>' يجب الا يتجاوز الحقل عن 100 حرف',
+            'price.required'=>'السعر مطلوب ولايحتوي قيمة',
+            'price.numeric'=>' الحقل يجب ان يكون قيمة عددية لاتحتوي على نصوص',
+            'details.required'=>' تفاصيل العرض حقل مطلوب ولا يحتوي على بيانات ',
+        ];
+    }
+    protected function getRuls(){
+        return  $ruls=[
+            'name'=>'required|max:100|unique:offers,name',
+            'price'=>'required|numeric',
+            'details'=>'required',
+        ];
+    }
+
+
+وهذا هوة العمل المنظم والاحترافي وباتعرف بالدرس القادمة كيف ناخذها من الترجمة عشان اذا كان في معانا اكثر من لغة
+
+
+// الدرس 49 و 50 
+عمل فالديشن واظهار الرسايل على الفورم نفسة
+
+في الكونترولر نكتب الدالة ونعمل اعادة توجية الى نفس الفورم 
+ public function store(Request $request){
+        // Offer::create([
+        //     'name'=>'offers3',
+        //     'price'=>'205',
+        //     'details'=>'offers details',
+        // ]);
+
+        // validate data befor insert to databease
+       
+        $ruls=$this->getRuls();
+        $messages=$this->getMessages();
+        $validator=Validator::make($request->all(),$ruls,$messages);
+        if($validator->fails()){
+            //return $validator->errors();
+            // return first error just
+            // return $validator->errors()->first();
+            // when have erorr redirct to form
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
+        // insert data
+        Offer::create([
+            'name'=>$request->name,
+            'price'=>$request->price,
+            'details'=>$request->details,
+        ]);
+        //return $request;
+        //return 'Sucsses seved data !.';
+        return redirect()->back()->with(['success'=>'تم اضافة العرض بنجاح !. ']);
+       
+    }
+
+
+في الفورم نعمل التالي
+ @if(Session::has('success'))
+                    <div class="alert alert-success" role="alert">
+                       {{Session::get('success')}}
+                    </div>
+                    <br>
+                    @endif
+                    <form method="POST" action="{{ route('offers.store') }}">
+                        @csrf
+                        {{-- <input name="_token" value="{{csrf_token()}}"/> --}}
+                        <div class="form-group row">
+                            <label for="name" class="col-md-4 col-form-label text-md-right"> Offer Name </label>
+
+                            <div class="col-md-6">
+                                <input id="name" type="text" class="form-control @error('name')  @enderror" name="name" value="{{ old('name') }}" >
+                                @error('name')
+                                <small class="text-danger " >
+                                    <strong>{{ $message }}</strong>
+                                </small>
+                            @enderror                                
+                            </div>
+                        </div>
+
+                        
+                        <div class="form-group row">
+                            <label for="price" class="col-md-4 col-form-label text-md-right"> Offer Price </label>
+
+                            <div class="col-md-6">
+                                <input id="price" type="text" class="form-control @error('price')  @enderror" name="price" value="{{ old('price') }}"  >
+                                @error('price')
+                                <small class="text-danger " >
+                                    <strong>{{ $message }}</strong>
+                                </small>
+                            @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="details" class="col-md-4 col-form-label text-md-right"> Offer Details </label>
+
+                            <div class="col-md-6">
+                                <input id="details" type="text" class="form-control @error('details')  @enderror" name="details" value="{{ old('details') }}"  >
+                                @error('details')
+                                <small class="text-danger " >
+                                    <strong>{{ $message }}</strong>
+                                </small>
+                            @enderror
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row mb-0">
+                            <div class="col-md-12 text-center mx-auto">
+                                <button type="submit" class="btn btn-primary btn btn-theme">
+                                    Create Offer
+                                </button>
+                                
+                            </div>
+                        </div>
+                    </form>
+
+
+
+// الدرس 51
+ ترجمة الرسائل من ملف اللغات عشان اذا في معانا اكثر من لغة
+
+
+
+// الدرس 52
+التحويل بين اللغات بشكل الي 
+في ملف الراوت نعمل قروب للغة العربية ونحط فيها الروتات العربية
+
+Route::group(['prefix' => LaravelLocalization::setLocale(),
+	'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]],function(){
+Route::group(['prefix'=>'offers'],function(){
+    // Route::get('store','CrudController@store');
+    
+    Route::get('create','CrudController@create');
+   
+    Route::post('store','CrudController@store')->name('offers.store');
+});
+
+});
+
+وفوق في الراوت نضيف المكتبة حق mcamra
+
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+
+
+وفي المنيو نضيف لينك تبديل اللغات
+ 
+@foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                            <li class="nav-item">
+                                <a class="nav-link" rel="alternate" hreflang="{{ $localeCode }}"
+                                    href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+                                    {{ $properties['native'] }}
+                                </a>
+                            </li>
+                        @endforeach
+
+
+
+
+
+//الدرس 53
+عمل ترجمة للصفحات حقنا من ملف اللغات
+
+// الدرس 54
+كتابة كود محترف
+
+انظم الكود واعمل ملف ريكوست
+
+php artisan make:request offerRequest
+
+
+ونعمل داخلية كل الفالديشن
+
+وفي الكنترولر نستدعي الركويست ونضمن النيم اسبيس حقة فوق
+
+
+public function store(offerRequest $request){
+        
+
+        // insert data
+        Offer::create([
+            'name'=>$request->name,
+            'price'=>$request->price,
+            'details'=>$request->details,
+        ]);
+        
+        return redirect()->back()->with(['success'=>'تم اضافة العرض بنجاح !. ']);
+       
+    }
+
+
+وفوق نعمل المكتبة التالية عشان يتعرف عليه
+use App\Http\Requests\offerRequest;
+
+
+وداخل الريكوست حقنا بنستدعي الرول
+
+ public function rules()
+    {
+        return [
+            //
+            'name'=>'required|max:100|unique:offers,name',
+            'price'=>'required|numeric',
+            'details'=>'required',
+        ];
+    }
+
+وكذلك نعدل الاوثرايز تروا عشان يقبل يعمل حفظ
+ويتحقق من الرول
+
+public function authorize()
+    {
+        return true;
+    }
+
+
+الرسايل الي بتجي من الديفلت حق اللارفال
+
+عشان نعمل حقنا الرسايل نوسي الدالةالتالية
+
+وفي الكنترولر حق العروض بوقف الدوال والفالديشن خلاص
+
+// validate data befor insert to databease
+       
+        // $ruls=$this->getRuls();
+        // $messages=$this->getMessages();
+        // $validator=Validator::make($request->all(),$ruls,$messages);
+        // if($validator->fails()){
+        //     //return $validator->errors();
+        //     // return first error just
+        //     // return $validator->errors()->first();
+        //     // when have erorr redirct to form
+        //     return redirect()->back()->withErrors($validator)->withInput($request->all());
+        // }
+
+// protected function getMessages(){
+    //     return  $messages=[
+    //         'name.required'=>trans('messages.offerNameRequired'),
+    //         'name.unique'=>__('messages.offerNameUnique'),
+    //         'name.max'=>__('messages.offerNameMax'),
+    //         'price.required'=>__('messages.offerPriceRequired'),
+    //         'price.numeric'=>__('messages.offerPriceNumeric'),
+    //         'details.required'=>__('messages.offerDetailsRequired'),
+    //     ];
+    // }
+    // protected function getRuls(){
+    //     return  $ruls=[
+    //         'name'=>'required|max:100|unique:offers,name',
+    //         'price'=>'required|numeric',
+    //         'details'=>'required',
+    //     ];
+    // }
+
+
+
+// الدرس 55
+
+عشان اعرض كل البيانات
+اعمل راوت يستدعي كل البيانات
+Route::post('all','CrudController@getAllOffers')->name('offers.all');
+
+
+ثم في الكنترولر ننشاء الدالة
+
+public function getAllOffers(){
+       $offers= Offer::select('id','name','price','details')->get(); //return c
+        return view('offers.all',compact('offers'));
+    }
+
+
+ثم ننشاء فيو اسمها all
+في مجلد الاوفرس
+
+ونعمل داخلة جدول لعرض البيانات
+
+<div class="container">
+    <div class="table-responsive card p-4 justify-content-center">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">{{__('messages.offerName')}}</th>
+                <th scope="col">{{__('messages.offerPrice')}}</th>
+                <th scope="col">{{__('messages.offerDetails')}}</th>
+              </tr>
+            </thead>
+            <tbody>
+                @foreach ($offers as $offer)
+                <tr>
+                    <th scope="row">{{$offer->id}}</th>
+                    <td>{{$offer->name}}</td>
+                    <td>{{$offer->price}}</td>
+                    <td>{{$offer->details}}</td>
+                  </tr>
+                @endforeach
+              
+              
+             
+            </tbody>
+          </table>
+    </div>
+</div>
+
+ثم ندخل قاعدة البيانات ونعدل على الجدول على اساس انه معانا لغتين بس مبدئيا
+
+وانظيف 4 حقول
+الاسم عربي والاسم انجليزي والتفاصيل عربي والتفاصيل انجليزي
+
+
+ثم سوف نغير فور انشاء 
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ __('Create Offer:') }}</div>
+
+                <div class="card-body">
+                    @if(Session::has('success'))
+                    <div class="alert alert-success" role="alert">
+                       {{Session::get('success')}}
+                    </div>
+                    <br>
+                    @endif
+                    <form method="POST" action="{{ route('offers.store') }}">
+                        @csrf
+                        {{-- <input name="_token" value="{{csrf_token()}}"/> --}}
+                        <div class="form-group row">
+                            <label for="name_ar" class="col-md-4 col-form-label text-md-right">  {{__('messages.offerName_ar')}} </label>
+
+                            <div class="col-md-6">
+                                <input id="name_ar" type="text" class="form-control @error('name_ar')  @enderror" name="name_ar" value="{{ old('name_ar') }}" >
+                                @error('name_ar')
+                                <small class="text-danger " >
+                                    <strong>{{ $message }}</strong>
+                                </small>
+                            @enderror                                
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name_en" class="col-md-4 col-form-label text-md-right">  {{__('messages.offerName_en')}} </label>
+
+                            <div class="col-md-6">
+                                <input id="name_en" type="text" class="form-control @error('name_en')  @enderror" name="name_en" value="{{ old('name_en') }}" >
+                                @error('name_en')
+                                <small class="text-danger " >
+                                    <strong>{{ $message }}</strong>
+                                </small>
+                            @enderror                                
+                            </div>
+                        </div>
+
+                        
+                        <div class="form-group row">
+                            <label for="price" class="col-md-4 col-form-label text-md-right"> {{__('messages.offerPrice')}} </label>
+
+                            <div class="col-md-6">
+                                <input id="price" type="text" class="form-control @error('price')  @enderror" name="price" value="{{ old('price') }}"  >
+                                @error('price')
+                                <small class="text-danger " >
+                                    <strong>{{ $message }}</strong>
+                                </small>
+                            @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="details_ar" class="col-md-4 col-form-label text-md-right"> {{__('messages.offerDetails_ar')}} </label>
+
+                            <div class="col-md-6">
+                                <input id="details_ar" type="text" class="form-control @error('details_ar')  @enderror" name="details_ar" value="{{ old('details_ar') }}"  >
+                                @error('details_ar')
+                                <small class="text-danger " >
+                                    <strong>{{ $message }}</strong>
+                                </small>
+                            @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="details_en" class="col-md-4 col-form-label text-md-right"> {{__('messages.offerDetails_en')}} </label>
+
+                            <div class="col-md-6">
+                                <input id="details_en" type="text" class="form-control @error('details_en')  @enderror" name="details_en" value="{{ old('details_en') }}"  >
+                                @error('details_en')
+                                <small class="text-danger " >
+                                    <strong>{{ $message }}</strong>
+                                </small>
+                            @enderror
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row mb-0">
+                            <div class="col-md-12 text-center mx-auto">
+                                <button type="submit" class="btn btn-primary btn btn-theme">
+                                    Create Offer
+                                </button>
+                                
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+ثم سوف نعدل الريكوست
+C:\xampp\htdocs\ecommerce\app\Http\Requests\offerRequest.php
+
+public function rules()
+    {
+        //'name'=>'required|max:100|unique:offers,name',
+            // 'details'=>'required',
+        return [
+            'name_ar'=>'required|max:100|unique:offers,name_ar',
+            'name_en'=>'required|max:100|unique:offers,name_en',
+            'price'=>'required|numeric',
+            'details_ar'=>'required',
+            'details_en'=>'required',
+        ];
+    }
+
+
+
+public function messages()
+    {
+        // 'name.required'=>trans('messages.offerNameRequired'),
+        //             'name.unique'=>__('messages.offerNameUnique'),
+        //             'name.max'=>__('messages.offerNameMax'),
+        // 'details.required'=>__('messages.offerDetailsRequired'),
+        return [
+                    
+                    'name_ar.required'=>trans('messages.offerNameRequired'),
+                    'name_ar.unique'=>__('messages.offerNameUnique'),
+                    'name_ar.max'=>__('messages.offerNameMax'),
+                    'name_en.required'=>trans('messages.offerNameRequired'),
+                    'name_en.unique'=>__('messages.offerNameUnique'),
+                    'name_en.max'=>__('messages.offerNameMax'),
+                    'price.required'=>__('messages.offerPriceRequired'),
+                    'price.numeric'=>__('messages.offerPriceNumeric'),
+                    'details_ar.required'=>__('messages.offerDetailsRequired'),
+                    'details_en.required'=>__('messages.offerDetailsRequired'),
+                ];
+    }
+
+
+
+وكذلك نعدل المودل
+زنحذف منه الاسم والتفاصيل ونضيف الحقول التي اضفناها
+
+class Offer extends Model
+{
+    //
+    protected $table="offers";
+    protected $fillable=['name_ar','name_en','price','details_ar','details_en'];
+    protected $hidden=['created_at','updated_at'];
+    // public $timestamps=false; //when you need to not an insert 'created_at'&'updated_at' data.!
+}
+
+
+ثم في الكنترولر سوف نعدل دالة الحفظ
+
+public function store(offerRequest $request){
+      
+        // insert data
+        Offer::create([
+            
+            'name_ar'=>$request->name_ar,
+            'name_en'=>$request->name_en,
+            'price'=>$request->price,
+            
+            'details_ar'=>$request->details_ar,
+            'details_en'=>$request->details_en,
+        ]);
+       
+        return redirect()->back()->with(['success'=>'تم اضافة العرض بنجاح !. ']);
+       
+    }
+
+// الدرس 56
+ كيفية عرض البيانات حسب اللغة العرض
+
+في دالة العرض في الكنترولر
+
+نعدل جملة جلب الكلكشن كالتالي :
+
+public function getAllOffers(){
+       $offers= Offer::select('id','name_'.LaravelLocalization::getCurrentLocale().' as name','price','details_'.LaravelLocalization::getCurrentLocale().' as details')->get(); //return c
+        return view('offers.all',compact('offers'));
+    }
+
+
+ثم نرفع الكو ع القيت هب
+
+نكتب التالي 
+
+git add .
+
+git commit -m="change lang an show data to lesone56"
+
+git push
 

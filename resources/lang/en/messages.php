@@ -21,4 +21,11 @@ return [
     'offerPriceRequired'=>' Offer Price is Required',
     'offerPriceNumeric'=>' Offer Name is Numeric',
     'offerDetailsRequired'=>' Offer Details is Required',
+    'offerName' => ' Offer Name ',
+    'offerPrice' => ' Offer Price ',
+    'offerDetails' => ' offer Details ',
+    'offerName_ar' => ' Offer Name Arbic',
+    'offerName_en' => ' Offer Name English',
+    'offerDetails_ar' => ' offer Details Arbic',
+    'offerDetails_en' => ' offer Details English',
 ];

@@ -18,11 +18,23 @@
                         @csrf
                         {{-- <input name="_token" value="{{csrf_token()}}"/> --}}
                         <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right"> Offer Name </label>
+                            <label for="name_ar" class="col-md-4 col-form-label text-md-right">  {{__('messages.offerName_ar')}} </label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name')  @enderror" name="name" value="{{ old('name') }}" >
-                                @error('name')
+                                <input id="name_ar" type="text" class="form-control @error('name_ar')  @enderror" name="name_ar" value="{{ old('name_ar') }}" >
+                                @error('name_ar')
+                                <small class="text-danger " >
+                                    <strong>{{ $message }}</strong>
+                                </small>
+                            @enderror                                
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name_en" class="col-md-4 col-form-label text-md-right">  {{__('messages.offerName_en')}} </label>
+
+                            <div class="col-md-6">
+                                <input id="name_en" type="text" class="form-control @error('name_en')  @enderror" name="name_en" value="{{ old('name_en') }}" >
+                                @error('name_en')
                                 <small class="text-danger " >
                                     <strong>{{ $message }}</strong>
                                 </small>
@@ -32,7 +44,7 @@
 
                         
                         <div class="form-group row">
-                            <label for="price" class="col-md-4 col-form-label text-md-right"> Offer Price </label>
+                            <label for="price" class="col-md-4 col-form-label text-md-right"> {{__('messages.offerPrice')}} </label>
 
                             <div class="col-md-6">
                                 <input id="price" type="text" class="form-control @error('price')  @enderror" name="price" value="{{ old('price') }}"  >
@@ -44,11 +56,23 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="details" class="col-md-4 col-form-label text-md-right"> Offer Details </label>
+                            <label for="details_ar" class="col-md-4 col-form-label text-md-right"> {{__('messages.offerDetails_ar')}} </label>
 
                             <div class="col-md-6">
-                                <input id="details" type="text" class="form-control @error('details')  @enderror" name="details" value="{{ old('details') }}"  >
-                                @error('details')
+                                <input id="details_ar" type="text" class="form-control @error('details_ar')  @enderror" name="details_ar" value="{{ old('details_ar') }}"  >
+                                @error('details_ar')
+                                <small class="text-danger " >
+                                    <strong>{{ $message }}</strong>
+                                </small>
+                            @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="details_en" class="col-md-4 col-form-label text-md-right"> {{__('messages.offerDetails_en')}} </label>
+
+                            <div class="col-md-6">
+                                <input id="details_en" type="text" class="form-control @error('details_en')  @enderror" name="details_en" value="{{ old('details_en') }}"  >
+                                @error('details_en')
                                 <small class="text-danger " >
                                     <strong>{{ $message }}</strong>
                                 </small>
