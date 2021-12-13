@@ -15,5 +15,11 @@ return [
 
     'hello gus' => ' مرحباً بكم .',
     'welcome' => 'اهلاًوسهلاً  .',
+    'offerNameRequired'=>' الحقل مطلوب ولايحتوي قيمة',
+    'offerNameUnique'=>'  القيمة موجودة مسبقاً ',
+    'offerNameMax'=>'  يجب الا يتجاوز الحقل عن 100 حرف ',
+    'offerPriceRequired'=>' السعر مطلوب ولايحتوي قيمة ',
+    'offerPriceNumeric'=>'  الحقل يجب ان يكون قيمة عددية لاتحتوي على نصوص ',
+    'offerDetailsRequired'=>'  تفاصيل العرض حقل مطلوب ولا يحتوي على بيانات  ',
 
 ];

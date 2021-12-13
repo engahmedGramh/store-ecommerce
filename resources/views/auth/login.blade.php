@@ -12,12 +12,12 @@
                         @csrf
 
                         <div class="form-group row">
-                            <label for="mobile" class="col-md-4 col-form-label text-md-right">{{ __('Your Mobile') }}</label>
+                            <label for="identfy" class="col-md-4 col-form-label text-md-right">{{ __('Your Mobile or Email') }}</label>
 
                             <div class="col-md-6">
-                                <input id="mobile" type="text" class="form-control @error('mobile') is-invalid @enderror" name="mobile" value="{{ old('mobile') }}" required  autofocus>
+                                <input id="identfy" type="text" class="form-control @error('identfy') is-invalid @enderror" name="identfy" value="{{ old('identfy') }}" required  >
 
-                                @error('mobile')
+                                @error('identfy')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -62,6 +62,9 @@
                                         {{ __('Forgot Your Password?') }}
                                     </a>
                                 @endif
+                                <a class="btn btn-link btn btn-theme" href="{{ url('redirect/facebook') }}">
+                                    {{ __('Login with Facebook') }}
+                                </a>
                             </div>
                         </div>
                     </form>

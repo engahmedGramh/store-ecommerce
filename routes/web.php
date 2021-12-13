@@ -1,5 +1,5 @@
 <?php
-
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 /*
@@ -102,10 +102,29 @@ Route::get('index','Front\UserController@getIndex');
 Route::get('ragmyat',function(){
 return view('index');
 });
+
+
 Auth::routes(['verify'=>true]);
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
 
 Route::get('/', function () {
     return view('index');
+});
+
+Route::get('/redirect/{service}','SocislController@redirect');
+
+Route::get('/callback/{service}','SocislController@callback');
+
+Route::get('/fillable','CrudController@getOffers');
+Route::group(['prefix' => LaravelLocalization::setLocale(),
+	'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]],function(){
+Route::group(['prefix'=>'offers'],function(){
+    // Route::get('store','CrudController@store');
+    
+    Route::get('create','CrudController@create');
+   
+    Route::post('store','CrudController@store')->name('offers.store');
+});
+
 });

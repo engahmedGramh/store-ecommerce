@@ -75,10 +75,13 @@
                         </div>
 
                         <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
+                            <div class="col-md-12 text-center mx-auto">
                                 <button type="submit" class="btn btn-primary btn btn-theme">
                                     {{ __('Register') }}
                                 </button>
+                                <a class="btn btn-link btn btn-theme" href="{{ url('redirect/facebook') }}">
+                                    {{ __('Register with Facebook') }}
+                                </a>
                             </div>
                         </div>
                     </form>
